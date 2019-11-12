@@ -1,0 +1,18 @@
+# ignoring IDE's
+
+**/.idea
+**/.vs
+**/.vscode
+
+# project files and folders
+
+**/bin
+**/obj
+
+.DS_Store
+
+# database
+**.db
+
+# App
+appsettings.json
