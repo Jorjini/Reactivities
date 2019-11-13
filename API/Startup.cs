@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Application.Activities;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Persistance;
 
 namespace API
@@ -28,6 +23,10 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(opt => { opt.UseSqlite(Configuration.GetConnectionString("Default")); });
+
+            //შეიძლება იყოს ბევრი ჰენდლერი, მაგრამ მედიატორს ჭირდება მხოლოდ 1
+            //საკმარისია 1 ჰენდლერის მითითება რომ დანარჩენები თვითონ აიღოს
+            services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -46,6 +45,7 @@ namespace API
             }
 
             //app.UseHttpsRedirection();
+            
             app.UseCors(c =>
             {
                 c.AllowCredentials();
