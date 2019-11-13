@@ -28,7 +28,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(opt => { opt.UseSqlite(Configuration.GetConnectionString("Default")); });
-            
+            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -46,6 +46,13 @@ namespace API
             }
 
             //app.UseHttpsRedirection();
+            app.UseCors(c =>
+            {
+                c.AllowCredentials();
+                c.AllowAnyHeader();
+                c.AllowAnyMethod();
+                c.AllowAnyOrigin();
+            });
             app.UseMvc();
         }
     }
