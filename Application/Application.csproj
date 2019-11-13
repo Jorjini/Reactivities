@@ -5,6 +5,10 @@
       <ProjectReference Include="..\Persistance\Persistance.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    </ItemGroup>
+
     <PropertyGroup>
         <TargetFramework>netcoreapp2.1</TargetFramework>
     </PropertyGroup>
