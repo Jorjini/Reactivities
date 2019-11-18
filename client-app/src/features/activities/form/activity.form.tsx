@@ -1,17 +1,18 @@
-import React, {FormEvent, useState} from "react";
+import React, {FormEvent, useContext, useState} from "react";
 import {Button, Form, FormInput, FormTextArea, Segment} from "semantic-ui-react";
 import {IActivity} from "../../../app/models/activity";
 import {v4 as uuid} from 'uuid';
+import ActivityStore from "../../../app/stores/activity-store";
+import {observer} from "mobx-react-lite";
 
 interface IProps {
-    setEditMode: (editMode: boolean) => void;
     activity:  IActivity;
-    createActivity: (activity: IActivity) => void;
-    editActivity: (activity: IActivity) => void;
-    submitting: boolean;
 }
 
-const ActivityForm: React.FC<IProps> = ({setEditMode, activity: initialFormState, createActivity, editActivity, submitting}) => {
+const ActivityForm: React.FC<IProps> = ({activity: initialFormState}) => {
+    const activityStore = useContext(ActivityStore);
+    const {createActivity, editActivity, submitting, cancelFormOpen} = activityStore;
+
     const InitForm = () => {
         if(initialFormState) {
             return initialFormState;
@@ -47,6 +48,7 @@ const ActivityForm: React.FC<IProps> = ({setEditMode, activity: initialFormState
         }
     };
 
+
     return(
         <Segment clearing>
             <Form onSubmit={() => handleSubmit()}>
@@ -57,10 +59,10 @@ const ActivityForm: React.FC<IProps> = ({setEditMode, activity: initialFormState
                 <FormInput placeholder='City' value={activity.city} onChange={handleInputChange} name='city'/>
                 <FormInput placeholder='Venue' value={activity.venue} onChange={handleInputChange} name='venue'/>
                 <Button floated='right' positive type='submit' content='Submit' loading={submitting}/>
-                <Button floated='right' type='button' content='Cancel' onClick={() => setEditMode(false)}/>
+                <Button floated='right' type='button' content='Cancel' onClick={cancelFormOpen}/>
             </Form>
         </Segment>
     )
 }
 
-export default ActivityForm;
+export default observer(ActivityForm);
