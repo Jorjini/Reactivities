@@ -6,9 +6,10 @@ interface IProps {
     activity: IActivity;
     setEditMode: (editMode: boolean) => void;
     setSelectedActivity: (activity: IActivity | null) => void;
+    submitting: boolean
 }
 
-const ActivitiesDetails: React.FC<IProps> = ({activity, setEditMode, setSelectedActivity}) => {
+const ActivitiesDetails: React.FC<IProps> = ({activity, setEditMode, setSelectedActivity, submitting}) => {
     return (
         <Card fluid>
             <Image src={`/assets/categoryImages/${activity.category}.jpg`} wrapped ui={false} />
@@ -23,8 +24,20 @@ const ActivitiesDetails: React.FC<IProps> = ({activity, setEditMode, setSelected
             </Card.Content>
             <Card.Content extra>
                 <Button.Group widths={2}>
-                    <Button basic color='blue' content='Edit' onClick={() => setEditMode(true)}/>
-                    <Button basic color='grey' content='Cancel' onClick={() => setSelectedActivity(null)}/>
+                    <Button
+                        basic
+                        color='blue'
+                        content='Edit'
+                        onClick={() => setEditMode(true)}
+                        loading={submitting}
+                    />
+                    <Button
+                        basic
+                        color='grey'
+                        content='Cancel'
+                        onClick={() => setSelectedActivity(null)}
+                        loading={submitting}
+                    />
                 </Button.Group>
             </Card.Content>
         </Card>
